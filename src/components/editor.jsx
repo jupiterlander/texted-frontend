@@ -17,7 +17,8 @@ function Editor(props) {
 
     useEffect(()=> {
         const loadDoc = async ()=> {
-            const res = await fetch(`http://localhost:1337/docs/find/${id}`);
+            const res = await fetch(
+                `https://jsramverk-editor-adpr12.azurewebsites.net/docs/find/${id}`);
             const data = await res.json();
 
             console.log("load data");
