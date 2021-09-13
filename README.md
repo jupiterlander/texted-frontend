@@ -1,6 +1,11 @@
-# Getting Started with Create React App
+
+# A react app for an assignment in the course [jsramverk](https://jsramverk.se/) at [BTH](https://www.bth.se)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Use
+This app is used with the backend [editor-backend](https://github.com/jupiterlander/texted-backend)
+
 
 ## Available Scripts
 

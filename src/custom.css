@@ -115,11 +115,11 @@
 /* ------------------------------------------------------------------- */
 /* -- Custum css overrides the css of ckeditor ---------------------- */
 .ck.ck-editor {
-    width: 25rem !important;
+    width: 50rem !important;
     max-width: 80vw !important;
     margin: auto !important;
-    box-shadow: 5px 5px 10px 0px grey;
-    border-radius: var(--ck-border-radius);
+    /* box-shadow: 5px 5px 10px 0px grey;
+    border-radius: var(--ck-border-radius); */
 }
 
 .ck.ck-editor__main .ck-content {
@@ -128,4 +128,20 @@
 
 .button-panel {
     padding: 1rem;
+}
+
+.button-panel button{
+    margin: 0 0.25rem;
+}
+
+main {
+    padding-top: 10vh;
+}
+
+.editor {
+    color: black;
+}
+
+.navbar {
+    background-color: black;
 }
