@@ -2,7 +2,6 @@ import React from 'react';
 
 
 function HomePage(props) {
-    console.log("editorpage", props);
     return (
         <div>
             <h1>My React app!</h1>

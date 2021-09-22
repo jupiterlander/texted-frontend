@@ -6,35 +6,34 @@ import { Link, useHistory } from "react-router-dom";
 const EdToolBar = ({ id, value, onStore })=> {
     const history = useHistory();
     const storeDoc = async ()=>{
-        console.log(id, value);
-        const res = await fetch('https://jsramverk-editor-adpr12.azurewebsites.net/docs/store', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ document: value })
-        });
-        const data = await res.json();
+        try {
+            const res = await fetch(
+                'https://jsramverk-editor-adpr12.azurewebsites.net/docs/store', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ document: value })
+                });
 
-        if (data.data.msg.insertedId) {
-            onStore(data.data.msg.insertedId);
-            history.push(`/editor/doc/${data.data.msg.insertedId}`);
-            console.log(history);
-        };
+            const data = await res.json();
 
-        console.log(data);
+            if (data.data.msg.insertedId) {
+                onStore(data.data.msg.insertedId);
+                history.push(`/editor/doc/${data.data.msg.insertedId}`);
+            }
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     const updateDoc = async ()=>{
-        console.log(id, value);
         const res = await fetch('https://jsramverk-editor-adpr12.azurewebsites.net/docs/update', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ "_id": id, "document": value })
         });
-        const data = await res.json();
 
-        console.log(data);
+        await res.json();
     };
-
 
     return (
         <div className="button-panel">

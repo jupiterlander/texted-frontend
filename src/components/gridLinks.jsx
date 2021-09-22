@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
 export default function GridLinks(props) {
     const classes = useStyles();
 
-    console.log(props);
     return (
         <div className={classes.root}>
             <Grid container spacing={4}>

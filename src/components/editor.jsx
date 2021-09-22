@@ -17,12 +17,15 @@ function Editor(props) {
 
     useEffect(()=> {
         const loadDoc = async ()=> {
-            const res = await fetch(
-                `https://jsramverk-editor-adpr12.azurewebsites.net/docs/find/${id}`);
-            const data = await res.json();
+            try {
+                const res = await fetch(
+                    `https://jsramverk-editor-adpr12.azurewebsites.net/docs/find/${id}`);
+                const data = await res.json();
 
-            console.log("load data");
-            ed.setData(data['data']['msg']['document'] ?? '');
+                ed.setData(data['data']['msg']['document'] ?? '');
+            } catch (e) {
+                console.log("fetch-error", e);
+            }
         };
 
         setId(props.id);
@@ -33,11 +36,8 @@ function Editor(props) {
         };
     }, [ed, props.id, id]);
 
-
-
-    console.log("editor", props);
     return (
-        <div class="editor">
+        <div className="editor">
             <CKEditor
                 editor={ClassicEditor}
                 onChange={ handleOnChange }
@@ -46,7 +46,7 @@ function Editor(props) {
                 } }
                 onReady={ editor => {
                     setEd(editor);
-                    console.log( 'Editor1 is ready to use!', editor );
+                    console.log( 'Editor1 is ready to use!');
                 }}
             />
             <EdToolBar id={id} value={value} onStore={onStore}/>

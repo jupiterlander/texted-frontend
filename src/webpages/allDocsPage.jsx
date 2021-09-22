@@ -14,10 +14,7 @@ const AllDocsPage = () => {
         const data = await res.json();
 
         if (data?.data?.msg) {
-            console.log(typeof data['data']['msg']);
-            console.log(data['data']['msg'][0]);
             setDocs(data['data']['msg']);
-            console.log("setdata");
         }
     };
 

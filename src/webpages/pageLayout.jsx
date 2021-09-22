@@ -2,7 +2,6 @@ import React from 'react';
 import Navbar from './navbar';
 
 const Layout = ({ children }, ...rest) => {
-    console.log("layout:", rest);
     return (
         <>
             <Navbar />
