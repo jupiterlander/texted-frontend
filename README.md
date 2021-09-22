@@ -3,6 +3,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+[![Build Status](https://app.travis-ci.com/jupiterlander/texted-frontend.svg?branch=main)](https://app.travis-ci.com/jupiterlander/texted-frontend)
+
 ## Use
 This app is used with the backend [editor-backend](https://github.com/jupiterlander/texted-backend)
 
