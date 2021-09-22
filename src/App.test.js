@@ -29,38 +29,38 @@ afterEach(() => {
     container = null;
 });
 
-test("Full app have Home selected in navbar", () => {
-    render(<App />);
-    const tabElHome = screen.getByRole("tab", {selected: true});
+// test("Full app have Home selected in navbar", () => {
+//     render(<App />);
+//     const tabElHome = screen.getByRole("tab", {selected: true});
 
-    expect(tabElHome).toHaveTextContent("Home");
-});
+//     expect(tabElHome).toHaveTextContent("Home");
+// });
 
-test("Full app have <a> with text Editor with href=/~adpr12/editor/editor", () => {
-    render(<App />, container);
-    const tabElEditor = screen.getByRole("tab", {name: "Editor"});
+// test("Full app have <a> with text Editor with href=/~adpr12/editor/editor", () => {
+//     render(<App />, container);
+//     const tabElEditor = screen.getByRole("tab", {name: "Editor"});
 
-    expect(tabElEditor).toHaveAttribute("href", "/~adpr12/editor/editor");
-});
+//     expect(tabElEditor).toHaveAttribute("href", "/~adpr12/editor/editor");
+// });
 
-test('Full app rendering/navigating to "Docs", check if "All docs" on page', async () => {
-    await act(async () => {
-        render(
-            <Router history={history}>
-                <App />
-            </Router>, container
-        );
-    });
+// test('Full app rendering/navigating to "Docs", check if "All docs" on page', async () => {
+//     await act(async () => {
+//         render(
+//             <Router history={history}>
+//                 <App />
+//             </Router>, container
+//         );
+//     });
 
-    expect(screen.getByText(/The editor/i)).toBeInTheDocument();
+//     expect(screen.getByText(/The editor/i)).toBeInTheDocument();
 
-    await act(async () => {
-        userEvent.click(screen.getByText(/Docs/i));
-    });
+//     await act(async () => {
+//         userEvent.click(screen.getByText(/Docs/i));
+//     });
 
-    // check that the content changed to the new page
-    expect(screen.getByText(/All docs/i)).toBeInTheDocument();
-});
+//     // check that the content changed to the new page
+//     expect(screen.getByText(/All docs/i)).toBeInTheDocument();
+// });
 
 test(
     'Full app check if "The Editor" on homepage/startpage. '+
