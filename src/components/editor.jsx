@@ -97,7 +97,7 @@ function Editor(props) {
                 onReady={editor => {
                     ed.current = editor;
                     //setEd(editor);
-                    console.log("Editor1 is ready to use!", editor);
+                    //console.log("Editor1 is ready to use!");
                 }}
             />
             <EdToolBar id={id} value={value} onStore={onStore} />
