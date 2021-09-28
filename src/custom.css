@@ -145,3 +145,27 @@ main {
 .navbar {
     background-color: black;
 }
+
+.multiUser {
+    color:lightpink;
+}
+
+.multiUser.action {
+    color:greenyellow;
+    transition: color 1s;
+}
+
+.doc-connections {
+    color:inherit;
+    padding: 0 2rem;
+}
+
+.doc-connections.action {
+    animation: fadein-and-out 2s linear;
+}
+
+@keyframes fadein-and-out {
+    0% { color: black;}
+    50% { color: yellow; }
+    100% { color: black; }
+}
