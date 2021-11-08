@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Grid, FormControlLabel, Switch, Typography } from '@material-ui/core/';
 
-function MultiUserToolBar({multiUser, setMultiUser, joined, disconnected}) {
+function MultiUserToolBar({accessMode, multiUser, setMultiUser, joined, disconnected, disabled}) {
     return (
         <Grid
             container
@@ -16,6 +16,7 @@ function MultiUserToolBar({multiUser, setMultiUser, joined, disconnected}) {
                 <FormControlLabel
                     control={
                         <Switch
+                            disabled={disabled}
                             checked={multiUser}
                             onChange={() => setMultiUser(!multiUser)}
                         />

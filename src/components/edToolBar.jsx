@@ -6,11 +6,15 @@ import { Link, useHistory } from "react-router-dom";
 const EdToolBar = ({ id, value, onStore })=> {
     const history = useHistory();
     const storeDoc = async ()=>{
+        console.log("storedoc ", id, value);
         try {
             const res = await fetch(
-                'https://jsramverk-editor-adpr12.azurewebsites.net/docs/store', {
+                /* 'https://jsramverk-editor-adpr12.azurewebsites.net/docs/store' */
+                    'http://localhost:1337/docs/store', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    mode: 'cors',
                     body: JSON.stringify({ document: value })
                 });
 
@@ -26,10 +30,14 @@ const EdToolBar = ({ id, value, onStore })=> {
     };
 
     const updateDoc = async ()=>{
-        const res = await fetch('https://jsramverk-editor-adpr12.azurewebsites.net/docs/update', {
+        console.log("updatedoc ", id, value);
+        const res = await fetch(/* 'https://jsramverk-editor-adpr12.azurewebsites.net/docs/update' */
+            'http://localhost:1337/docs/update', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ "_id": id, "document": value })
+            credentials: 'include',
+            mode: 'cors',
+            body: JSON.stringify({ "id": id, "document": value })
         });
 
         await res.json();

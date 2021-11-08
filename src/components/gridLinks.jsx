@@ -26,13 +26,30 @@ export default function GridLinks(props) {
             <Grid container spacing={4}>
                 {props.docs.length
                     ? props.docs.map(doc => (
-                        <Grid item key={doc._id} component={Link} style={{ textDecoration: 'none' }}
-                            to={`/editor/doc/${doc._id}`}
+                        <Grid item key={doc.id} component={Link} style={{ textDecoration: 'none' }}
+                            to={`/editor/doc/${doc.id}`}
                             xs={12}
                             sm={6}
                         >
                             <Paper className={classes.paper}>
-                                {doc._id}
+                                {doc.id}
+                            </Paper>
+
+                        </Grid>
+                    ))
+                    : null}
+            </Grid>
+            <h2>Access docs</h2>
+            <Grid container spacing={4}>
+                {props.access.length
+                    ? props.access.map(obj => (
+                        <Grid item key={obj.docs.id} component={Link} style={{ textDecoration: 'none' }}
+                            to={`/editor/doc/${obj.docs.id}?accessmode=true`}
+                            xs={12}
+                            sm={6}
+                        >
+                            <Paper className={classes.paper}>
+                                {obj.profile.username}: {obj.docs.id}
                             </Paper>
 
                         </Grid>

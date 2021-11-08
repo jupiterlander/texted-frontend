@@ -1,7 +1,8 @@
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "https://jsramverk-editor-adpr12.azurewebsites.net/";
-//const LOCAL = 'http://localhost:1337';
+//const ENDPOINT = "wss://jsramverk-editor-adpr12.azurewebsites.net/";
+//const ENDPOINT = 'http://localhost:1337';
+const ENDPOINT = 'ws://localhost:1337';
 
-const socket = socketIOClient(ENDPOINT);
+const socket = socketIOClient(ENDPOINT, {withCredentials: true});
 
 export default socket;

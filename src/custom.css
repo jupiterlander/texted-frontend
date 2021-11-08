@@ -169,3 +169,7 @@ main {
     50% { color: yellow; }
     100% { color: black; }
 }
+
+.Mui-disabled {
+    color: black !important;
+}

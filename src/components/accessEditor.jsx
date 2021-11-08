@@ -8,26 +8,21 @@ import EdToolBar  from './edToolBar';
 import MultiUserToolBar from './multiUserToolBar';
 import AccessGrid from './accessGrid';
 
-import { useHistory, useLocation } from "react-router-dom";
 
 
 function Editor(props) {
     let ed = useRef();
     const [value, setValue] = useState("");
-    const [valueChangedBySocket, setValueChangedBySocket] = useState(false);
+    const  [valueChangedBySocket, setValueChangedBySocket] = useState(false);
     const [id, setId] = useState(props.id);
     const [multiUser, setMultiUser] = useState(false);
-    const [accessMode, setAccessMode] = useState(props.accessmode);
 
     const [accessUsers, setAccessUsers] = useState([]);
-
-    const { pathname } = useLocation();
-    const history  = useHistory();
 
     const handleOnChange = (_e, editor) => {
         if (!valueChangedBySocket) {
             setValue(editor.getData());
-            socket.emit("doc", {"id": id, "value": editor.getData()});
+            socket.emit("doc", {"id": id, value: editor.getData()});
         }
 
         setValueChangedBySocket(false);
@@ -38,11 +33,6 @@ function Editor(props) {
     };
     const [joined, setJoined] = useState(false);
     const [disconnected, setDisconnected] = useState(false);
-
-    useEffect(()=>{
-        setAccessMode(props.accessmode);
-        setMultiUser(props.accessmode);
-    }, [props.accessmode]);
 
     useEffect(()=> {
         const loadDoc = async ()=> {
@@ -57,28 +47,22 @@ function Editor(props) {
                     }
                 );
                 const data = await res.json();
-                console.log(data, res.ok);
+                console.log(data);
+                ed.current.setData(data.doc?.docdata ?? '');
 
-                if (res.ok) {
-                    ed.current.setData(data.doc?.docdata ?? '');
-                    Array.isArray(data.doc?.access) && setAccessUsers(data.doc?.access);
-                } else {
-                    history.push(pathname.replace(/[^/]*$/, ''));
-                }
+                setAccessUsers(data.doc?.access);
             } catch (e) {
                 console.log("fetch-error", e);
             }
         };
 
         setId(props.id);
-
-        console.log(props.id, accessMode, ed);
-        if (props.id && props.id !=='new' && ed  && !accessMode) {
+        if (props.id && props.id !=='new' && ed) {
             loadDoc();
         } else if (ed.current) {
-            //ed.current.setData("");
+            ed.current.setData("");
         };
-    }, [props.id, id, accessMode]);
+    }, [props.id, id]);
 
     useEffect(()=>{
         socket.on('joined', () => {
@@ -111,14 +95,11 @@ function Editor(props) {
     return (
         <div className="editor">
             <MultiUserToolBar
-                disabled={!id}
-                accessMode={accessMode}
                 multiUser={multiUser}
                 setMultiUser={setMultiUser}
                 joined={joined}
                 disconnected={disconnected}
             />
-
             <CKEditor
                 editor={ClassicEditor}
                 onChange={handleOnChange}
@@ -131,24 +112,19 @@ function Editor(props) {
                     //console.log("Editor1 is ready to use!");
                 }}
             />
-            {accessMode?
-                null:
+            {!accessmode?
                 <>
                     <EdToolBar id={id} value={value} onStore={onStore} />
-                    {!id?
-                        null:
-                        <AccessGrid
-                            id={id}
-                            users={accessUsers}
-                            setAccessUsers={setAccessUsers}
-                            multiUser={multiUser}
-                            setMultiUser={setMultiUser}
-                            joined={joined}
-                            disconnected={disconnected}
-                        />
-                    }
+                    <AccessGrid
+                        id={id}
+                        users={accessUsers}
+                        multiUser={multiUser}
+                        setMultiUser={setMultiUser}
+                        joined={joined}
+                        disconnected={disconnected}
+                    />
                 </>
-            }
+                :null}
         </div>
     );
 }
