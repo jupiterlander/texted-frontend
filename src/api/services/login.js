@@ -1,11 +1,12 @@
+const DOC_SERVER = process.env.REACT_APP_DOC_SERVER;
+
+
+
 const login = async loginData => {
     try {
-        const res = await fetch("http://localhost:1337/login", {
+        const res = await fetch(`${DOC_SERVER}/login`, {
             method: "POST",
-            headers: {},
-            credentials: 'include',
             mode: 'cors',
-
             body: new URLSearchParams({
                 username: loginData.userName,
                 password: loginData.password,
@@ -14,9 +15,7 @@ const login = async loginData => {
 
         const result = await res.json();
 
-        //localStorage.setItem('user', JSON.stringify(result));
-        //window.sessionStorage.setItem("user", result);
-        console.log(result);
+        sessionStorage.setItem('token', result?.access_token);
         return result;
     } catch (e) {
         console.log("fetch-error", e);

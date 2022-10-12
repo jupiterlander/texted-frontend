@@ -3,7 +3,6 @@ import SignupForm from "../components/signupForm";
 
 
 function SignupPage(props) {
-    console.log("props", props);
     return (
         <div>
             <h1>Signup</h1>

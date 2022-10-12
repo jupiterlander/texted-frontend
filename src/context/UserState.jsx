@@ -7,10 +7,14 @@ const UserState = (props) => {
     const value = useMemo(() => ({user, setUser}), [user]);
 
     useEffect(()=>{
-        loggedIn().then(user=>setUser(user.user));
-    }, []);
+        const checkLoggedin = async ()=>{
+            const result = await loggedIn();
 
-    //useEffect(()=>console.log("uuuuse", user), [user]);
+            setUser(result?.user || null);
+        };
+
+        checkLoggedin();
+    }, []);
 
     return <UserContext.Provider value={value}>
         {props.children}</UserContext.Provider>;

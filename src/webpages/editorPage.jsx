@@ -1,21 +1,23 @@
-import { CodeSharp } from '@mui/icons-material';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Editor from '../components/editor';
-import { useLocation } from 'react-router-dom';
-
-function useQuery() {
-    return new URLSearchParams(useLocation().search);
-}
 
 function EditorPage(props) {
-    const accessMode = useQuery().get('accessmode')==='true';
+    const [ owner, setOwner ] = useState("");
+    const [ accessmode, setAccessmode ] = useState("");
 
-    console.log("in editorpage ", props);
+    useEffect(()=>{
+        const query = new URLSearchParams(props.location.search);
+
+        setAccessmode(query.get('accessmode'));
+        setOwner(query.get('owner'));
+    }, [props.location.search]);
+
 
     return (
         <div>
             <h3>Document Id: {props.match.params.id}</h3>
-            <Editor id={props.match.params.id} accessmode={accessMode}/>
+            { owner && <h3>Owner: {owner}</h3> }
+            <Editor id={props.match.params.id} accessmode={accessmode}/>
         </div>
     );
 }

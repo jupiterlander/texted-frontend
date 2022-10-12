@@ -50,24 +50,18 @@ const SignUpForm = (/* {handleClose} */) => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        console.log(userName, email, password);
         const result = await signup({userName, email, password});
-        console.log(result);
 
-        if (result.acknowledged) {
+
+        if (result?.acknowledged) {
             setUser({username: userName, email});
             history.push('/user');
-            console.log({userName, email});
         } else {
-            setError(result.msg);
+            setError(result?.msg);
         }
     };
 
     const clearError = () => setError(null);
-
-    useEffect(()=>{
-        console.log("useeffeckt: ", user);
-    }, [user]);
 
     return (
         <form className={classes.root} onSubmit={handleSubmit} onFocus={clearError}>

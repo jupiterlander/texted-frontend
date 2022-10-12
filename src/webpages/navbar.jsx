@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 function Navbar(props) {
     const [selected, setSelected] = useState(false);
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const location = useLocation();
     const classes = useStyles();
 
@@ -42,7 +42,6 @@ function Navbar(props) {
         } else {
             index = links.findIndex((link=>pathName.startsWith(link)));
         }
-        console.log("user", user);
         setSelected(index);
     }, [location.pathname, user]);
 

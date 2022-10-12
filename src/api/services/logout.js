@@ -1,8 +1,16 @@
+const DOC_SERVER = process.env.REACT_APP_DOC_SERVER;
+
 const logout = async () => {
-    console.log("logget out");
+    const token = sessionStorage.getItem('token');
+
+    sessionStorage.removeItem('token');
+
     try {
-        const res = await fetch("http://localhost:1337/logout", {
+        const res = await fetch(`${DOC_SERVER}/logout`, {
             method: "GET",
+            headers: {
+                'x-access-token': token
+            },
             credentials: 'include',
             mode: 'cors'
         });

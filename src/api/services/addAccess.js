@@ -1,8 +1,12 @@
+const DOC_SERVER = process.env.REACT_APP_DOC_SERVER;
+
 const addAccess = async (id, username) => {
     try {
-        const res = await fetch("http://localhost:1337/docs/access", {
+        const res = await fetch(`${DOC_SERVER}/docs/access`, {
             method: "POST",
-            headers: {},
+            headers: {
+                'x-access-token': sessionStorage.getItem('token')
+            },
             credentials: 'include',
             mode: 'cors',
 
@@ -13,9 +17,8 @@ const addAccess = async (id, username) => {
         });
 
         const result = await res.json();
-        result.ok = res.ok;
-        console.log(result);
 
+        result.ok = res.status === 201;
         return result;
     } catch (e) {
         console.log("fetch-error", e);

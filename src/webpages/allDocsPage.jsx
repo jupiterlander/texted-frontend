@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import GridLinks  from "../components/gridLinks";
+import getAllDocs from '../api/services/getAllDocs';
 
 const AllDocsPage = () => {
     const [docs, setDocs] = useState([]);
@@ -11,23 +12,13 @@ const AllDocsPage = () => {
     }, []);
 
     const getData = async () => {
-        const res = await fetch(/* 'https://jsramverk-editor-adpr12.azurewebsites.net/docs/all' */
-            'http://localhost:1337/docs/all',
-            {
-                method: 'GET',
-                credentials: 'include',
-                mode: 'cors'
-            });
-
-        const data = await res.json();
+        const data = await getAllDocs();
 
         if (data?.docs?.docs) {
             setDocs(data.docs.docs);
-            console.log(data.docs.docs);
         }
         if (data?.access) {
             setAccessDocs(data.access);
-            console.log(data.access);
         }
     };
 

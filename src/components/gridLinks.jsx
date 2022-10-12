@@ -44,7 +44,7 @@ export default function GridLinks(props) {
                 {props.access.length
                     ? props.access.map(obj => (
                         <Grid item key={obj.docs.id} component={Link} style={{ textDecoration: 'none' }}
-                            to={`/editor/doc/${obj.docs.id}?accessmode=true`}
+                            to={`/editor/doc/${obj.docs.id}?accessmode=false&owner=${obj.profile.username}`}
                             xs={12}
                             sm={6}
                         >

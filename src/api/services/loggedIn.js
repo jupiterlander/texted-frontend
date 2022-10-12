@@ -1,20 +1,26 @@
+const DOC_SERVER = process.env.REACT_APP_DOC_SERVER;
+
 const loggedIn = async loginData => {
     try {
-        const res = await fetch("http://localhost:1337/loggedin", {
+        const res = await fetch(`${DOC_SERVER}/loggedin`, {
             method: "GET",
-            headers: {},
-            credentials: 'include',
-            mode: 'cors',
+            headers: {
+                'x-access-token': sessionStorage.getItem('token')
+            },
+            credentials: "include",
+            mode: "cors",
         });
 
-        const result = await res.json();
+        if (res.status === 200) {
+            const result = await res.json();
 
-        //localStorage.setItem('user', JSON.stringify(result));
-        // window.sessionStorage.setItem("user", result);
-        console.log(result);
-        return result;
+            return result;
+        } else {
+            return null;
+        }
     } catch (e) {
         console.log("fetch-error", e);
+        return null;
     }
 };
 

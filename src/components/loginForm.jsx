@@ -50,24 +50,18 @@ const LoginForm = (/* {handleClose} */) => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        console.log(userName, password);
         const result = await login({userName, password});
 
-        console.log("result;", result);
-
-        if (result.user) {
-            setUser(result.user);
+        if (result?.access_token) {
+            setUser({ username: userName });
             history.push('/user');
         } else {
-            setError(result.msg);
+            setUser(null);
+            setError(result?.msg);
         }
     };
 
     const clearError = () => setError(null);
-
-    useEffect(()=>{
-        console.log("useeffeckt: ", user);
-    }, [user]);
 
     return (
         <form

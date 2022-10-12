@@ -1,8 +1,8 @@
 const DOC_SERVER = process.env.REACT_APP_DOC_SERVER;
 
-const getAllAccess = async (id, username) => {
+const getAllDocs = async (id, username) => {
     try {
-        const res = await fetch(`${DOC_SERVER}/docs/access/${id}`, {
+        const res = await fetch(`${DOC_SERVER}/docs/all`, {
             method: "GET",
             headers: {
                 'x-access-token': sessionStorage.getItem('token')
@@ -19,4 +19,4 @@ const getAllAccess = async (id, username) => {
     }
 };
 
-export default getAllAccess;
+export default getAllDocs;

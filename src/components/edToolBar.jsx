@@ -1,28 +1,20 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 import { Link, useHistory } from "react-router-dom";
+import storeDoc from '../api/services/storeDoc';
+
+const DOC_SERVER = process.env.REACT_APP_DOC_SERVER;
 
 
 const EdToolBar = ({ id, value, onStore })=> {
     const history = useHistory();
-    const storeDoc = async ()=>{
-        console.log("storedoc ", id, value);
+    const store = async ()=>{
         try {
-            const res = await fetch(
-                /* 'https://jsramverk-editor-adpr12.azurewebsites.net/docs/store' */
-                    'http://localhost:1337/docs/store', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    credentials: 'include',
-                    mode: 'cors',
-                    body: JSON.stringify({ document: value })
-                });
+            const result = await storeDoc(value);
 
-            const data = await res.json();
-
-            if (data.data.msg.insertedId) {
-                onStore(data.data.msg.insertedId);
-                history.push(`/editor/doc/${data.data.msg.insertedId}`);
+            if (result.id) {
+                onStore(result.id);
+                history.push(`/editor/doc/${result.id}`);
             }
         } catch (e) {
             console.log(e);
@@ -30,15 +22,14 @@ const EdToolBar = ({ id, value, onStore })=> {
     };
 
     const updateDoc = async ()=>{
-        console.log("updatedoc ", id, value);
-        const res = await fetch(/* 'https://jsramverk-editor-adpr12.azurewebsites.net/docs/update' */
-            'http://localhost:1337/docs/update', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            mode: 'cors',
-            body: JSON.stringify({ "id": id, "document": value })
-        });
+        const res = await fetch(
+            `${DOC_SERVER}/docs/update`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                mode: 'cors',
+                body: JSON.stringify({ "id": id, "document": value })
+            });
 
         await res.json();
     };
@@ -50,7 +41,7 @@ const EdToolBar = ({ id, value, onStore })=> {
             <Link to={"/editor/doc/"}>
                 <Button variant="contained" color="default" >New</Button>
             </Link>
-            <Button variant="contained" color="default" onClick={ id? updateDoc: storeDoc }>
+            <Button variant="contained" color="default" onClick={ id? updateDoc: store }>
             Save</Button>
         </div>
     );

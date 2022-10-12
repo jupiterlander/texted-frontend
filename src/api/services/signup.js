@@ -1,7 +1,8 @@
+const DOC_SERVER = process.env.REACT_APP_DOC_SERVER;
+
 const signup = async user => {
-    console.log("signup-user", user);
     try {
-        const res = await fetch("http://localhost:1337/signup", {
+        const res = await fetch(`${DOC_SERVER}/signup`, {
             method: "POST",
             headers: {},
             credentials: 'include',
@@ -14,14 +15,18 @@ const signup = async user => {
             }),
         });
 
-        const json = await res.json();
+        const result = await res.json();
 
-        json.ok = res.ok;
-        console.log(json);
-        return json;
+        if (res.status === 201) {
+            sessionStorage.setItem('token', result?.access_token);
+            return { acknowledged: true };
+        }
+
+        return result;
     } catch (e) {
         console.log("fetch-error", e);
+        return {};
     }
 };
 
-module.exports = signup;
+export default signup;

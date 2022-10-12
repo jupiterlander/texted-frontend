@@ -16,14 +16,18 @@ import Grow from '@mui/material/Grow';
 import addAccess from '../api/services/addAccess';
 import removeAccess from "../api/services/removeAccess";
 
+import getSocket  from '../sockets/socketConnection';
 
 
-export default function AccessGrantAccordion({id, setAccessUsers}) {
-    const [error, setError ] = useState('');
+
+export default function AccessGrantAccordion({id, setAccessUsers, socket}) {
+    const [ error, setError ] = useState(false);
+    const [ message, setMessage ] = useState(null);
 
 
     const handleOnChange = (e) => {
         setError(false);
+        setMessage(null);
     };
 
     const handleSubmit = (e) => {
@@ -31,21 +35,18 @@ export default function AccessGrantAccordion({id, setAccessUsers}) {
         const action = e.nativeEvent.submitter.name;
 
         e.preventDefault();
-        console.log("(e.target[0].value: ", e.target[0].value);
-        console.log("(e.target: ", e.target);
-        console.log(
-            "(e.nativeEvent.submitter.name",
-            e.nativeEvent.submitter.name,
-        );
 
         if (action === "add") {
             addAccess(id, value).then(
                 res =>{
-                    if (res.ok && res.result.modifiedCount) {
+                    if (res.ok) {
                         setAccessUsers(res.access);
                         e.target[0].value = "";
+                        setMessage(res.msg || "Ok!");
+                        setError(false);
                     } else {
-                        setError(res.msg || "Error");
+                        setMessage(res.msg || "Error!");
+                        setError(true);
                     }
                 }
 
@@ -53,11 +54,23 @@ export default function AccessGrantAccordion({id, setAccessUsers}) {
         } else if (action === "remove") {
             removeAccess(id, value).then(
                 res =>{
-                    if (res.result.modifiedCount) {
+                    if (res.ok) {
+                        if (!socket) {
+                            const tmpSocket = getSocket();
+
+                            tmpSocket.emit("removeaccess", value, id, ()=>{
+                                tmpSocket.disconnect();
+                            });
+                        } else {
+                            socket.emit("removeaccess", value, id);
+                        }
                         setAccessUsers(res.access);
                         e.target[0].value = "";
+                        setMessage(res.msg || "Ok!");
+                        setError(false);
                     } else {
-                        setError(res.msg || "Error");
+                        setMessage(res.msg || "Error!");
+                        setError(true);
                     }
                 }
             );
@@ -88,6 +101,7 @@ export default function AccessGrantAccordion({id, setAccessUsers}) {
                             variant="standard"
                             placeholder="username"
                             inputProps={{"aria-label": "add user acces"}}
+                            required="true"
                             onChange={handleOnChange}
                         />
                         <Button
@@ -110,9 +124,12 @@ export default function AccessGrantAccordion({id, setAccessUsers}) {
                         >
                             Remove access for user
                         </Button>
-                        <Grow in={error}>
-                            <Alert severity="error">{error}</Alert>
-                        </Grow>
+                        {message?
+                            <Grow  in="true">
+                                <Alert severity={error? "error": "success"}>{message}</Alert>
+                            </Grow>
+                            : null
+                        }
                     </Paper>
                 </AccordionDetails>
             </Accordion>
