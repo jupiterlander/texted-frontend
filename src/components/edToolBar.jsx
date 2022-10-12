@@ -2,8 +2,7 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import { Link, useHistory } from "react-router-dom";
 import storeDoc from '../api/services/storeDoc';
-
-const DOC_SERVER = process.env.REACT_APP_DOC_SERVER;
+import updateDoc from '../api/services/updateDoc';
 
 
 const EdToolBar = ({ id, value, onStore })=> {
@@ -21,17 +20,8 @@ const EdToolBar = ({ id, value, onStore })=> {
         }
     };
 
-    const updateDoc = async ()=>{
-        const res = await fetch(
-            `${DOC_SERVER}/docs/update`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                mode: 'cors',
-                body: JSON.stringify({ "id": id, "document": value })
-            });
-
-        await res.json();
+    const update = async ()=>{
+        await updateDoc(id, value);
     };
 
     return (
@@ -41,7 +31,7 @@ const EdToolBar = ({ id, value, onStore })=> {
             <Link to={"/editor/doc/"}>
                 <Button variant="contained" color="default" >New</Button>
             </Link>
-            <Button variant="contained" color="default" onClick={ id? updateDoc: store }>
+            <Button variant="contained" color="default" onClick={ id? update: store }>
             Save</Button>
         </div>
     );
